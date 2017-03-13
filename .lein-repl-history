@@ -1,0 +1,16 @@
+(or false "hi")
+System/getenv "DEFAULT_LANG"
+System/
+get
+(System/getenv "DEFAULT_LANG")
+(or (System/getenv "DEFAULT_LANG") "hi")
+exit
+(defn default-lang
+  (or (System/getenv "DEFAULT_LANG") 
+      "en")
+)
+(or (System/getenv "DEFAULT_LANG") "en")
+(defn default-lang
+  (or (System/getenv "DEFAULT_LANG") "en")
+)
+exit

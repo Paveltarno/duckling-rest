@@ -7,41 +7,69 @@
   	[compojure.route :as route]
     [ring.adapter.jetty :refer :all]
   )
-
-  )
-
-(defn parse-all [text-to-parse]
-  (p/parse :en$core text-to-parse)
 )
 
-(defn parse-time [text-to-parse]
-  (p/parse :en$core text-to-parse [:time])
+(defn default-lang
+  []
+  (or (System/getenv "DEFAULT_LANG") "en")
 )
 
-(defn parse-number [text-to-parse]
-  (p/parse :en$core text-to-parse [:number])
+(defn port
+  []
+  (or (System/getenv "PORT") 
+      9000)
 )
 
-(defn parse-ordinal [text-to-parse]
-  (p/parse :en$core text-to-parse [:ordinal])
+(defn host
+  []
+  (or (System/getenv "IP") 
+      "0.0.0.0")
 )
 
-(defn parse-duration [text-to-parse]
-  (p/parse :en$core text-to-parse [:duration])
+(defn parse-all [text-to-parse lang]
+  (p/parse text-to-parse lang)
+)
+
+(defn parse-time [text-to-parse lang]
+  (p/parse text-to-parse lang [:time])
+)
+
+(defn parse-number [text-to-parse lang]
+  (p/parse text-to-parse lang [:number])
+)
+
+(defn parse-ordinal [text-to-parse lang]
+  (p/parse text-to-parse lang [:ordinal])
+)
+
+(defn parse-duration [text-to-parse lang]
+  (p/parse text-to-parse lang [:duration])
+)
+
+; TODO: FIX the default lang, it is sent as a param
+(defn parse
+  ([text-to-parse dim] (parse text-to-parse dim (default-lang)))
+  ([text-to-parse dim language] 
+  (println text-to-parse)
+  (println dim)
+  (println language)
+  (p/parse 
+    (str language "$core") text-to-parse dim
+  ))
 )
 
 (defroutes app-routes
-  (GET "/parse/all/:text" [text] (parse-all text))
-  (GET "/parse/time/:text" [text] (parse-time text))
-  (GET "/parse/number/:text" [text] (parse-number text))
-  (GET "/parse/ordinal/:text" [text] (parse-ordinal text))
-  (GET "/parse/duration/:text" [text] (parse-duration text))
+  (GET "/parse/all/:text" [text lang] (parse text "" lang))
+  (GET "/parse/time/:text" [text lang] (parse-time text lang))
+  (GET "/parse/number/:text" [text lang] (parse-number text lang))
+  (GET "/parse/ordinal/:text" [text lang] (parse-ordinal text lang))
+  (GET "/parse/duration/:text" [text lang] (parse-duration text lang))
 
-  (POST "/parse/all" {:keys [params]} (let [{:keys [text]} params] (parse-all text)))
-  (POST "/parse/time" {:keys [params]} (let [{:keys [text]} params] (parse-time text)))
-  (POST "/parse/number" {:keys [params]} (let [{:keys [text]} params] (parse-number text)))
-  (POST "/parse/ordinal" {:keys [params]} (let [{:keys [text]} params] (parse-ordinal text)))
-  (POST "/parse/duration" {:keys [params]} (let [{:keys [text]} params] (parse-duration text)))
+  (POST "/parse/all" {:keys [params]} (let [{:keys [text lang]} params] (parse-all text lang)))
+  (POST "/parse/time" {:keys [params]} (let [{:keys [text lang]} params] (parse-time text lang)))
+  (POST "/parse/number" {:keys [params]} (let [{:keys [text lang]} params] (parse-number text lang)))
+  (POST "/parse/ordinal" {:keys [params]} (let [{:keys [text lang]} params] (parse-ordinal text lang)))
+  (POST "/parse/duration" {:keys [params]} (let [{:keys [text lang]} params] (parse-duration text lang)))
   (route/not-found "Not Found")
 )
 
@@ -53,8 +81,12 @@
 )
 
 (defn -main [& args]
+  (println "Loading Duckling 🦆 🦆 🦆")
   (p/load!)
-  (run-jetty app {:port 9000}))
+  (run-jetty app {
+    :host (host)
+    :port (port)
+  }))
 
 
 ; :dim  examples
