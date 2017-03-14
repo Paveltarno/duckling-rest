@@ -29,9 +29,11 @@
 )
 
 (defn parse [text-to-parse & [language dim]]
-  (p/parse 
-    (str (or language (default-lang)) "$core") text-to-parse dim
-  )
+  {
+    :body (p/parse 
+      (str (or language (default-lang)) "$core") text-to-parse dim
+    )
+  }
 )
 
 (defn parse-time [text-to-parse lang]
