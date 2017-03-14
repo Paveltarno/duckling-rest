@@ -16,8 +16,10 @@
 
 (defn port
   []
-  (or (System/getenv "PORT") 
-      9000)
+  (Integer/parseInt
+    (or ( System/getenv "PORT") 
+        "9000")
+  )
 )
 
 (defn host
@@ -26,46 +28,36 @@
       "0.0.0.0")
 )
 
-(defn parse-all [text-to-parse lang]
-  (p/parse text-to-parse lang)
+(defn parse [text-to-parse & [language dim]]
+  (p/parse 
+    (str (or language (default-lang)) "$core") text-to-parse dim
+  )
 )
 
 (defn parse-time [text-to-parse lang]
-  (p/parse text-to-parse lang [:time])
+  (parse text-to-parse lang [:time])
 )
 
 (defn parse-number [text-to-parse lang]
-  (p/parse text-to-parse lang [:number])
+  (parse text-to-parse lang [:number])
 )
 
 (defn parse-ordinal [text-to-parse lang]
-  (p/parse text-to-parse lang [:ordinal])
+  (parse text-to-parse lang [:ordinal])
 )
 
 (defn parse-duration [text-to-parse lang]
-  (p/parse text-to-parse lang [:duration])
-)
-
-; TODO: FIX the default lang, it is sent as a param
-(defn parse
-  ([text-to-parse dim] (parse text-to-parse dim (default-lang)))
-  ([text-to-parse dim language] 
-  (println text-to-parse)
-  (println dim)
-  (println language)
-  (p/parse 
-    (str language "$core") text-to-parse dim
-  ))
+  (parse text-to-parse lang [:duration])
 )
 
 (defroutes app-routes
-  (GET "/parse/all/:text" [text lang] (parse text "" lang))
+  (GET "/parse/all/:text" [text lang] (parse text lang))
   (GET "/parse/time/:text" [text lang] (parse-time text lang))
   (GET "/parse/number/:text" [text lang] (parse-number text lang))
   (GET "/parse/ordinal/:text" [text lang] (parse-ordinal text lang))
   (GET "/parse/duration/:text" [text lang] (parse-duration text lang))
 
-  (POST "/parse/all" {:keys [params]} (let [{:keys [text lang]} params] (parse-all text lang)))
+  (POST "/parse/all" {:keys [params]} (let [{:keys [text lang]} params] (parse text lang)))
   (POST "/parse/time" {:keys [params]} (let [{:keys [text lang]} params] (parse-time text lang)))
   (POST "/parse/number" {:keys [params]} (let [{:keys [text lang]} params] (parse-number text lang)))
   (POST "/parse/ordinal" {:keys [params]} (let [{:keys [text lang]} params] (parse-ordinal text lang)))
@@ -81,7 +73,7 @@
 )
 
 (defn -main [& args]
-  (println "Loading Duckling 🦆 🦆 🦆")
+  (println "Loading Duckling server 🦆 🦆 🦆")
   (p/load!)
   (run-jetty app {
     :host (host)

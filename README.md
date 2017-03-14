@@ -20,11 +20,11 @@ To compile and run:
 
 GET API's:
 	
-	1) GET "/parse/all/:text"
-	2) GET "/parse/time/:text"
-	3) GET "/parse/number/:text"
-	4) GET "/parse/ordinal/:text"
-	5) GET "/parse/duration/:text"
+	1) GET "/parse/all/:text?lang=en"
+	2) GET "/parse/time/:text?lang=en"
+	3) GET "/parse/number/:text?lang=en"
+	4) GET "/parse/ordinal/:text?lang=en"
+	5) GET "/parse/duration/:text?lang=en"
 
 POST API's:
 	
@@ -34,5 +34,12 @@ POST API's:
 	4) POST "/parse/ordinal"
 	5) POST "/parse/duration"
 	
-	with JSON request body as: {text:"text"}
-	
+	with JSON request body as: {text:"text", lang: "en"}
+
+CONFIGURATION:
+--------------
+You can specify the following environment variables to configure duckling server:
+
+- DEFAULT_LANG (_defaults to `en`_)
+- PORT (_defaults to 9000_)
+- IP (_defaults to 0.0.0.0_)
