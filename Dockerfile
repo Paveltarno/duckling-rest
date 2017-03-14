@@ -1,12 +1,18 @@
 FROM clojure:alpine
+MAINTAINER Pavel Tarno <paveltarno@gmail.com>
 
-COPY . /duckling
+COPY . /duckling-server
+WORKDIR /duckling-server
 
-WORKDIR /duckling/duckling
+RUN apk update && apk upgrade && \
+    apk add --no-cache git openssh
+RUN git clone --depth 1 --branch 0.4.23-HE https://github.com/Paveltarno/duckling.git
+
+WORKDIR /duckling-server/duckling
 RUN lein jar
 RUN lein install
 
-WORKDIR /duckling
+WORKDIR /duckling-server
 RUN lein uberjar
 
 EXPOSE 9000
