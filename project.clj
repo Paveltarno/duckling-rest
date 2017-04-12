@@ -1,11 +1,11 @@
-(defproject duckling-rest "0.1.1-SNAPSHOT"
+(defproject duckling-rest "0.1.2"
   ; ...project settings...
 
   :plugins [[lein-ring "0.8.10"]]
 
   :dependencies [
 	  [org.clojure/clojure "1.8.0"]
-	  [wit/duckling "0.4.23-HE"]
+	  [wit/duckling "0.4.23-HE-1"]
 	  [ring/ring-core "1.2.1"]
 	  [ring/ring-jetty-adapter "1.2.1"]
 	  [compojure "1.1.6"]
