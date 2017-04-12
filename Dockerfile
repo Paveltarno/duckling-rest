@@ -7,7 +7,7 @@ WORKDIR /duckling-server
 RUN apk update && apk upgrade && \
     apk add --no-cache git openssh
 
-RUN git clone --branch 0.4.23-HE-1 --depth 1 https://github.com/botique-ai/duckling-rest
+RUN git clone --branch 0.4.23-HE-1 --depth 1 https://github.com/botique-ai/duckling
 
 WORKDIR /duckling-server/duckling
 RUN lein jar
