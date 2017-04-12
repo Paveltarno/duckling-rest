@@ -19,4 +19,4 @@ RUN lein uberjar
 EXPOSE 9000
 
 ENTRYPOINT ["java"]
-CMD ["-Xms256m", "-Xmx512m", "-Djava.awt.headless=true", "-jar", "target/duckling-rest-0.1.1-SNAPSHOT-standalone.jar"]
+CMD ["-Xms256m", "-Xmx512m", "-Djava.awt.headless=true", "-jar", "target/duckling-rest-0.1.2-standalone.jar"]
