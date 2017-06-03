@@ -1,4 +1,4 @@
-(defproject duckling-rest "0.1.3"
+(defproject duckling-rest "0.1.4"
   ; ...project settings...
 
   :plugins [[lein-ring "0.8.10"]]
