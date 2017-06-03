@@ -8,7 +8,7 @@ To compile and run:
 
   2) To use the local (extended) version of duckling, go into the duckling folder in the project and run `lein jar` to generate a snapshot of the duckling project and then run `lein install` to install this this jar as a local dependency.
   
-  3) In case you want to use a non extended version of the duckling project, replace `[wit/duckling "1.0.85-SNAPSHOT"]` in `project.clj` (present in the main directory of the repository) with `[wit/duckling "0.4.23"]` or the latest version from the [Duckling project](https://github.com/wit-ai/duckling)
+  3) In case you want to use a non extended version of the duckling project, replace `[wit/duckling "1.0.85-SNAPSHOT"]` in `project.clj` (present in the main directory of the repository) with `[wit/duckling "0.4.24"]` or the latest version from the [Duckling project](https://github.com/wit-ai/duckling)
   
   4) Back in the main project directory, run `lein deps` to download dependencies;
   
