@@ -7,7 +7,7 @@ WORKDIR /duckling-server
 RUN apk update && apk upgrade && \
     apk add --no-cache git openssh
 
-RUN git clone --branch 0.4.24-HE-3 --depth 1 https://github.com/botique-ai/duckling
+RUN git clone --branch 0.4.24-HE-4 --depth 1 https://github.com/botique-ai/duckling
 
 WORKDIR /duckling-server/duckling
 RUN lein jar
@@ -19,4 +19,4 @@ RUN lein uberjar
 EXPOSE 9000
 
 ENTRYPOINT ["java"]
-CMD ["-Xms256m", "-Xmx512m", "-Djava.awt.headless=true", "-jar", "target/duckling-rest-0.1.6-standalone.jar"]
+CMD ["-Xms256m", "-Xmx512m", "-Djava.awt.headless=true", "-jar", "target/duckling-rest-0.1.7-standalone.jar"]
